@@ -1,0 +1,41 @@
+{
+  "name": "gather-solana-group-pay",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "build": "npm run build:readonly-runtime-candidate",
+    "build:readonly-runtime-candidate": "tsc -b && tsc -p tsconfig.functions.json && vite build --config vite.devnet.config.ts --mode readonly-candidate --outDir dist-readonly-runtime-fix-candidate && node scripts/copy-public-index.mjs dist-readonly-runtime-fix-candidate",
+    "preview": "vite preview --config vite.devnet.config.ts --mode readonly-candidate --host 127.0.0.1 --port 4173 --strictPort --outDir dist-readonly-runtime-fix-candidate",
+    "test": "node --test tests/ui-simulation.test.mjs tests/local-pending.test.mjs tests/devnet-prep.test.mjs tests/chain-recovery.test.mjs tests/read-only-display.test.mjs",
+    "test:artifact": "node --test tests/public-preview.test.mjs",
+    "test:browser": "node tests/read-only-display-browser.mjs",
+    "verify": "npm test && npm run build && npm run test:artifact"
+  },
+  "dependencies": {
+    "@anchor-lang/core": "1.2.0",
+    "@js-temporal/polyfill": "0.5.1",
+    "@solana/spl-token": "0.4.15",
+    "@solana/wallet-adapter-base": "0.9.28",
+    "@solana/wallet-adapter-react": "0.15.40",
+    "@solana/web3.js": "1.99.0",
+    "bn.js": "5.2.5",
+    "bs58": "6.0.0",
+    "buffer": "6.0.3",
+    "react": "19.3.0",
+    "react-dom": "19.3.0"
+  },
+  "devDependencies": {
+    "@types/bn.js": "5.2.0",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "6.1.1",
+    "playwright-core": "1.63.0",
+    "typescript": "7.0.2",
+    "vite": "8.3.0"
+  },
+  "overrides": {
+    "rpc-websockets": "9.3.8"
+  }
+}

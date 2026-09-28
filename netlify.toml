@@ -1,0 +1,7 @@
+[build]
+  command = "npm run build:readonly-runtime-candidate"
+  publish = "dist-readonly-runtime-fix-candidate"
+  functions = "netlify/functions"
+
+[functions]
+  node_bundler = "esbuild"
