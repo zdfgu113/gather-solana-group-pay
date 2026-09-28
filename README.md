@@ -1,5 +1,7 @@
 # Gather
 
+<img src="public/gather-logo.png" alt="Gather logo" width="112" />
+
 **Conditional group-booking payments on Solana Devnet.**
 
 Gather lets an organizer define a fixed-price activity, a minimum number of distinct participant wallets, a capacity, and a registration deadline. Participant funds enter a program-controlled SPL Token vault. If the group succeeds, the legitimate participation amount can be released to the organizer. If the group fails or the organizer cancels within the rules, each participant claims their own refund.
@@ -13,6 +15,8 @@ This repository is the judge-facing source package for the **Colosseum Crypto Wo
 - **App:** https://gather-group-pay-devnet.netlify.app/
 - **Completed paid activity:** https://gather-group-pay-devnet.netlify.app/devnet.html?event=SMhtCCQRnXFx2Zq7RVBRLnKDatpDd3oKvvZyome13dz
 - **Completed refunded activity:** https://gather-group-pay-devnet.netlify.app/devnet.html?event=4SZ2XvXx4eEyNPQLfFbrQTLtfFVJ4SgoagVrTTWkc87S
+- **Pitch video:** https://youtu.be/EQY8cPL4Atk
+- **Product demo:** https://youtu.be/E9gwixHDBwU
 
 The site always opens in simulation mode. On either completed-activity link, select **Review Devnet test mode** to load validated on-chain display data. A wallet is not needed for these two read-only examples.
 
@@ -92,7 +96,7 @@ npm run dev
 
 Open http://127.0.0.1:5173/. Refresh resets the in-memory demo.
 
-Build the same seven-file frontend shape used by the reviewed release:
+Build the same eight-file frontend shape used by the reviewed release:
 
 ```bash
 npm run build
@@ -109,7 +113,7 @@ The normal verification is offline and does not connect a wallet or send a trans
 npm run verify
 ```
 
-It runs the Node logic/recovery/Function tests, compiles the frontend and Function TypeScript, builds the stripped public artifact, and checks its seven-file allowlist.
+It runs the Node logic/recovery/Function tests, compiles the frontend and Function TypeScript, builds the stripped public artifact, and checks its eight-file allowlist.
 
 An additional isolated 390 px browser test uses mocked same-origin Function responses:
 
@@ -138,7 +142,7 @@ The script installs the contract's locked JavaScript dependencies, builds the lo
 
 ## Verified evidence
 
-The current production deploy is `6ab9e4e92dcca9930a389028`. Its public-origin acceptance covered the homepage, both fixed activity links, refresh-to-simulation behavior, 390 px layout, bilingual failure messaging, one explicit retry, server response bounds, and the absence of browser-side private RPC calls. The full evidence boundaries and historical transaction links are in [docs/verification.md](docs/verification.md).
+The current production deploy is `6aba878737e9eba16eeb7393`. Its public-origin acceptance covered the homepage, both fixed activity links, refresh-to-simulation behavior, 390 px and 1280 px layouts, the complete Gather logo, bilingual failure messaging, one explicit retry, server response bounds, and the absence of browser-side private RPC calls. The full evidence boundaries and historical transaction links are in [docs/verification.md](docs/verification.md).
 
 The repository-preparation verification was run from this standalone directory after copying the allowlisted source, rather than relying only on the original workspace. Exact results are recorded in that document.
 
@@ -157,10 +161,10 @@ The repository-preparation verification was run from this standalone directory a
 
 AI coding agents, including OpenAI Codex, assisted with product-rule analysis, implementation, tests, documentation, debugging and review under human direction. The human operator chose the scope, controlled the historical Devnet test wallets, authorized deployments, and approved every historical wallet signature. AI assistance is disclosed here and is not presented as independent user validation, a security audit, revenue, adoption or authorship by nonexistent contributors.
 
-No synthetic Git history is included in this package. The repository owner should create an honest initial import commit when they approve publication.
+No synthetic or backdated Git history is included. The repository contains only the actual preparation and follow-up commits.
 
 ## License status and attribution
 
-No project license has been selected or added. See [LICENSE-CHOICE.md](LICENSE-CHOICE.md) before making the repository public; the file explains common options without making a legal choice for the owner.
+No project license has been selected or added. [LICENSE-CHOICE.md](LICENSE-CHOICE.md) records common options without making a legal choice for the owner.
 
 The interface uses an illustrative photograph by Vitaly Gariev via Unsplash. It does not depict either test activity. See [docs/photo-credit.md](docs/photo-credit.md).

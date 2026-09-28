@@ -122,7 +122,7 @@ function App({ bridge }: { bridge?: LocalAppBridge }) {
   return <div className="site-shell">
     <header className="product-header glass">
       <div className="header-inner">
-        <button className="wordmark" type="button" onClick={() => changePage(bridge?.mode === 'devnet' && bridge.requestedAddress && !bridge.address ? 'read' : local && !bridge?.address ? 'create' : 'detail')} aria-label={t.details}><span className="wordmark-icon" aria-hidden="true">g</span><strong>{t.brand}</strong><span className="demo-pill">{local ? l.badge : t.demoBadge}</span></button>
+        <button className="wordmark" type="button" onClick={() => changePage(bridge?.mode === 'devnet' && bridge.requestedAddress && !bridge.address ? 'read' : local && !bridge?.address ? 'create' : 'detail')} aria-label={t.details}><span className="wordmark-icon" aria-hidden="true"><img src="/gather-logo.png" alt="" width="38" height="38" /></span><strong>{t.brand}</strong><span className="demo-pill">{local ? l.badge : t.demoBadge}</span></button>
         <nav className="product-nav" aria-label={t.details}>
           <button className={page === 'detail' ? 'is-active' : ''} type="button" disabled={local && !bridge?.address} onClick={() => changePage('detail')}>{t.details}</button>
           <button className={page === 'manage' ? 'is-active' : ''} type="button" disabled={local && !bridge?.address} onClick={() => changePage('manage')}>{t.manage}</button>

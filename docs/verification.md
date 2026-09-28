@@ -9,8 +9,8 @@ The commands below were run on 2026-09-28 from the standalone package after its 
 | Command | Result |
 | --- | --- |
 | `npm ci` | Exit 0 with Node.js 26.3.0 and npm 11.16.0; 532 locked packages installed |
-| `npm run verify` | Exit 0; 41 application/Function tests plus 1 seven-file artifact test passed, 0 failed or skipped; TypeScript and Vite production-shape build succeeded |
-| `npm run test:browser` | Exit 0; 3 isolated Microsoft Edge scenarios passed at 390 px using mocked same-origin reads, with no wallet or Devnet access |
+| `npm run verify` | Exit 0; 41 application/Function tests plus 1 eight-file artifact test passed, 0 failed or skipped; TypeScript and Vite production-shape build succeeded |
+| `npm run test:browser` | Exit 0 at 390 px and 1280 px; 3 isolated Microsoft Edge scenarios passed at each size using mocked same-origin reads, with no wallet or Devnet access |
 | `cd contract && bash scripts/verify-phase2b.sh` | Exit 0 in WSL; Anchor build, committed/generated IDL check and TypeScript typecheck passed; 6 Rust unit tests and 20 LiteSVM/local-validator integration tests passed |
 | Public-package secret/path scan | Scanner self-test passed and the source package had 0 findings; no real `.env`, keypair, build, cache, log, browser-profile or Git metadata paths were present before dependency installation |
 
@@ -23,12 +23,12 @@ The contract scripts used their pinned Anchor CLI 1.2.0, Solana CLI 4.1.2 and Ru
 ## Current production read-only acceptance
 
 - Site: https://gather-group-pay-devnet.netlify.app/
-- Production deploy: `6ab9e4e92dcca9930a389028`
+- Production deploy: `6aba878737e9eba16eeb7393`
 - Scope: simulation plus two fixed completed Devnet activities only.
 - Paid Event: `SMhtCCQRnXFx2Zq7RVBRLnKDatpDd3oKvvZyome13dz`
 - Refunded Event: `4SZ2XvXx4eEyNPQLfFbrQTLtfFVJ4SgoagVrTTWkc87S`
 
-The release-window browser run used isolated 390 px contexts and verified:
+The release-window browser runs used isolated 390 px and 1280 px contexts. Real Function reads ran at 390 px; static layout and direct-link checks ran at both sizes. They verified:
 
 - the homepage made no Function request before explicit Devnet selection;
 - both fixed Events returned decoded terminal data from the deployed Function;
@@ -37,6 +37,8 @@ The release-window browser run used isolated 390 px contexts and verified:
 - responses stayed below the client limit and used `no-store` and `nosniff` headers;
 - the wallet remained disconnected;
 - the browser made no direct Helius or Solana RPC request and contained no provider key.
+- the published eight-file payload matched the reviewed candidate and the complete Gather logo loaded without horizontal overflow;
+- recent Function logs contained no error or fatal entries after the acceptance reads.
 
 This is current read-only evidence, not wallet or transaction evidence.
 

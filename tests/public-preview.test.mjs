@@ -15,8 +15,9 @@ test(`${outputName} serves the same approved entry at / and /devnet.html`, () =>
   const names = files(output)
   assert.ok(names.includes('index.html'))
   assert.ok(names.includes('devnet.html'))
+  assert.ok(names.includes('gather-logo.png'))
   assert.ok(names.some((name) => name.endsWith('.js')))
-  assert.equal(names.length, 7, `Expected the seven-file public allowlist, got: ${names.join(', ')}`)
+  assert.equal(names.length, 8, `Expected the eight-file public allowlist, got: ${names.join(', ')}`)
   assert.ok(names.every((name) => ['.html', '.js', '.css', '.svg', '.jpg', '.png', '.webp'].includes(extname(name))), `Unexpected public file: ${names.find((name) => !['.html', '.js', '.css', '.svg', '.jpg', '.png', '.webp'].includes(extname(name)))}`)
   assert.equal(names.some((name) => /(^|\/)local\.html$|\.map$|\.log$|\.json$|\.env|(^|\/)(?:tests|docs|target|output)\//i.test(name)), false)
 

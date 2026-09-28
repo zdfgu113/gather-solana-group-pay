@@ -13,7 +13,8 @@ import {
 
 const root = resolve(import.meta.dirname, '..')
 const previewDir = process.env.PREVIEW_DIR || 'dist-readonly-runtime-fix-candidate'
-const output = resolve(root, 'output/playwright/readonly-integration-candidate')
+const output = resolve(root, process.env.OUTPUT_DIR || 'output/playwright/readonly-integration-candidate')
+const viewportWidth = Number(process.env.VIEWPORT_WIDTH || 390)
 mkdirSync(output, { recursive: true })
 process.env.TMP = output
 process.env.TEMP = output
@@ -67,7 +68,7 @@ try {
   browser = await chromium.launch({ channel: 'msedge', headless: true, artifactsDir: output, args: ['--disable-extensions'] })
 
   for (const [name, target] of Object.entries(DEVNET_PUBLIC_EVENTS)) {
-    const context = await browser.newContext({ viewport: { width: 390, height: 844 }, serviceWorkers: 'block' })
+    const context = await browser.newContext({ viewport: { width: viewportWidth, height: 844 }, serviceWorkers: 'block' })
     const page = await context.newPage()
     const reads = []
     const directRpc = []
@@ -80,6 +81,7 @@ try {
     })
     await page.goto(`${origin}/devnet.html?event=${target.event}`)
     await page.getByText('Simulation only. TEST has no cash value', { exact: false }).waitFor()
+    assert.equal(await page.locator('.wordmark-icon img').evaluate((image) => image.complete && image.naturalWidth > 0), true, 'Gather logo must load')
     assert.equal(reads.length, 0, 'Default simulation must not call the display endpoint')
     await page.getByTestId('devnet-mode-switch').click()
     await page.locator(`.status-${target.status.toLowerCase()}`).first().waitFor()
@@ -88,13 +90,13 @@ try {
     assert.deepEqual(directRpc, [])
     assert.match(await page.getByTestId('wallet-button').textContent(), /Connect wallet/)
     assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), true)
-    await page.screenshot({ path: resolve(output, `${name}-390.png`), fullPage: true })
+    await page.screenshot({ path: resolve(output, `${name}-${viewportWidth}.png`), fullPage: true })
     await context.close()
   }
 
   {
     const target = DEVNET_PUBLIC_EVENTS.refunded
-    const context = await browser.newContext({ viewport: { width: 390, height: 844 }, serviceWorkers: 'block' })
+    const context = await browser.newContext({ viewport: { width: viewportWidth, height: 844 }, serviceWorkers: 'block' })
     const page = await context.newPage()
     let reads = 0
     let fail = true
@@ -117,13 +119,13 @@ try {
     await page.getByTestId('event-read-retry').click()
     await page.locator('.status-refunded').first().waitFor()
     assert.equal(reads, 2, 'One explicit retry must issue one new display read')
-    await page.screenshot({ path: resolve(output, 'refunded-retry-zh-390.png'), fullPage: true })
+    await page.screenshot({ path: resolve(output, `refunded-retry-zh-${viewportWidth}.png`), fullPage: true })
     await context.close()
   }
 
   {
     const unsupported = new PublicKey(new Uint8Array(32).fill(9)).toBase58()
-    const context = await browser.newContext({ viewport: { width: 390, height: 844 }, serviceWorkers: 'block' })
+    const context = await browser.newContext({ viewport: { width: viewportWidth, height: 844 }, serviceWorkers: 'block' })
     const page = await context.newPage()
     let reads = 0
     await page.route('**/.netlify/functions/read-event**', (route) => { reads += 1; return route.abort() })
@@ -136,7 +138,7 @@ try {
     await context.close()
   }
 
-  console.log('PASS fixed paid/refunded display, explicit Devnet, no wallet or direct RPC, 390px')
+  console.log(`PASS fixed paid/refunded display, explicit Devnet, no wallet or direct RPC, ${viewportWidth}px`)
   console.log('PASS bilingual failure, no automatic retry, one explicit retry')
   console.log('PASS unsupported address is rejected before the display endpoint')
 } finally {
